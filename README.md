@@ -2,10 +2,8 @@
 
 A Home Assistant custom integration that connects to the [Cartesia Sonic](https://cartesia.ai) text-to-speech API, giving HA access to Cartesia's library of 600+ voices across 42 languages with fine-grained control over speed, volume, and emotion.
 
-> [!NOTE]
-> This is preliminary documentation, there may still be errors or omissions
-
 > **Disclaimer:** This is an unofficial, community-developed integration. It is not affiliated with, endorsed by, or supported by Cartesia AI. For Cartesia API support, visit [cartesia.ai](https://cartesia.ai) or their [Discord](https://discord.gg/cartesia). For integration issues, please open a GitHub issue on this repository.
+
 ## Features
 
 - Full `tts.speak` support in Home Assistant.
@@ -21,16 +19,30 @@ A Home Assistant custom integration that connects to the [Cartesia Sonic](https:
 ## Requirements
 
 - Home Assistant 2025.x or later.
-- A Cartesia API key. Sign up and create a key at [play.cartesia.ai/keys](https://play.cartesia.ai/keys).
+- A Cartesia API key. Sign up and create a free key at [play.cartesia.ai/keys](https://play.cartesia.ai/keys).
+
+---
 
 ## Installation
 
-1. Copy the `cartesia_tts` folder into `config/custom_components/cartesia_tts/` on your HA instance.
-2. Restart Home Assistant.
-3. Go to Settings -> Devices and Services -> Add Integration.
-4. Search for "Cartesia Sonic TTS" and follow the setup wizard.
+> [!NOTE]
+> Only one instance of the integration is supported. If you attempt to add it again, HA will show a message directing you to the Configure button on the existing entry.
 
-Only one instance of the integration is supported. If you attempt to add it again, HA will show a message directing you to the Configure button on the existing entry.
+### HACS (Recommended)
+
+1. Open **HACS** in your Home Assistant sidebar.
+2. Click the three-dot menu (top right) and choose **Custom repositories**.
+3. Paste `https://github.com/sfox38/cartesia_tts` and select **Integration** as the category.
+4. Click **Add**, then find **cartesia_tts** in the HACS Integration list and click **Download**
+5. Restart Home Assistant.
+
+### Manual Installation
+
+1. Download the latest release zip from this repository and unpack it.
+2. Copy the `tiktoktts` folder into your `config/custom_components/` directory. The result should be `config/custom_components/cartesia_tts/`.
+3. Restart Home Assistant.
+
+---
 
 ## Setup Wizard
 
@@ -53,19 +65,21 @@ Choose your default Cartesia model.
 
 Choose your default language, speed, volume, and emotion. The language list is filtered to only show languages supported by the model chosen in step 2.
 
-Use the radio at the bottom to go back to model selection if needed.
+Use the option at the bottom to go back to model selection if needed.
 
 ### Step 4: Voice
 
 Choose your default voice. The dropdown shows only voices for the selected language. Voices are sorted alphabetically. Voice names include accent information where relevant (e.g. "Matilda - Australian Female").
 
-Use the radio at the bottom to go back to settings, or to reload the voice list from Cartesia if you want to see recently added voices.
+Use the option at the bottom to go back to settings.
 
 ## Reconfiguring After Setup
 
 Go to Settings -> Devices and Services -> Cartesia Sonic TTS -> Configure.
 
-The Configure dialog follows the same three-step flow (model, settings, voice) with your current values pre-filled. The voice list is loaded from the in-memory cache. If the cache is empty (e.g. after a HA restart), it is fetched automatically when you reach the voice step.
+The Configure dialog follows the same three-step flow (model, settings, voice) with your current values pre-filled. The voice list is loaded from the in-memory cache. If the cache is empty (e.g. after a HA restart), it is fetched automatically when you reach the voice step - this may take several seconds.
+
+---
 
 ## Using `tts.speak`
 
@@ -109,7 +123,7 @@ data:
   language: fr
   options:
     model: sonic-3
-    voice_id: "<your-french-voice-id>"
+    voice_id: "ab636c8b-9960-4fb3-bb0c-b7b655fb9745"
 ```
 
 ### With SSML tags
@@ -125,6 +139,8 @@ message: "<volume ratio='1.5'/> This part is louder."
 
 See the [Cartesia SSML documentation](https://docs.cartesia.ai/build-with-cartesia/sonic-3/ssml-tags) for the full tag reference.
 
+---
+
 ## Options Reference
 
 The following keys are accepted in the `options` dict of `tts.speak`:
@@ -138,15 +154,19 @@ The following keys are accepted in the `options` dict of `tts.speak`:
 | `volume` | float | Volume multiplier. 0.5 quietest, 1.0 normal, 2.0 loudest |
 | `emotion` | string | Emotion name (see list below) |
 
+---
+
 ## Supported Emotions
 
 Emotions are guidance to the model, not strict transformations. Results vary by voice and transcript. For best results use one of Cartesia's recommended emotive voices (tagged "Emotive" in the [Cartesia voice library](https://play.cartesia.ai/voices)).
 
 The primary emotions with the most training data are: `neutral`, `angry`, `excited`, `content`, `sad`, `scared`.
 
-Full list (pass lowercase to the API or options dict):
+Full list (pass to the API or options dict):
 
-Affectionate, Agitated, Alarmed, Amazed, Angry, Anticipation, Anxious, Apologetic, Bored, Calm, Confident, Confused, Contemplative, Contempt, Content, Curious, Dejected, Determined, Disappointed, Disgusted, Distant, Elated, Enthusiastic, Envious, Euphoric, Excited, Flirtatious, Frustrated, Grateful, Guilty, Happy, Hesitant, Hurt, Insecure, Ironic, Joking/Comedic, Mad, Melancholic, Mysterious, Neutral, Nostalgic, Outraged, Panicked, Peaceful, Proud, Rejected, Resigned, Sad, Sarcastic, Scared, Serene, Skeptical, Surprised, Sympathetic, Threatened, Tired, Triumphant, Trust, Wistful
+affectionate, agitated, alarmed, amazed, angry, anticipation, anxious, apologetic, bored, calm, confident, confused, contemplative, contempt, content, curious, dejected, determined, disappointed, disgusted, distant, elated, enthusiastic, envious, euphoric, excited, flirtatious, frustrated, grateful, guilty, happy, hesitant, hurt, insecure, ironic, joking/comedic, mad, melancholic, mysterious, neutral, nostalgic, outraged, panicked, peaceful, proud, rejected, resigned, sad, sarcastic, scared, serene, skeptical, surprised, sympathetic, threatened, tired, triumphant, trust, wistful
+
+---
 
 ## Supported Languages
 
@@ -162,11 +182,7 @@ Chinese, Dutch, English, French, German, Hindi, Italian, Japanese, Korean, Polis
 
 The Cartesia API does not expose dialect codes (e.g. `en-AU`) in the synthesis request. Accent is a property of the voice itself. Many voices in the Cartesia library include accent information in their name (e.g. "Matilda - Australian Female"). Voice selection is effectively dialect selection.
 
-## Voice Cache Behaviour
-
-The integration does not fetch the voice list on HA restart. The cache starts empty and is populated only when you open the Configure dialog and reach the voice selection step. Since the cache is cleared on every HA restart, any voices Cartesia has added since your last session will appear automatically the next time you open Configure.
-
-`tts.speak` is never delayed by a voice list fetch. The voice ID stored in your configuration is sent directly to the Cartesia API without any lookup.
+---
 
 ## Troubleshooting
 
@@ -179,6 +195,8 @@ The integration does not fetch the voice list on HA restart. The cache starts em
 **Wrong accent**: The language code alone does not control accent. Select a voice whose name or description matches your desired accent.
 
 **SSML not working**: The message string must contain valid Cartesia SSML. Invalid or malformed tags are silently ignored by the Cartesia API.
+
+**Voice Cache Behaviour**: The integration does not fetch the voice list on HA restart. The cache starts empty and is populated only when you open the Configure dialog and reach the voice selection step. This may take several seconds. Since the cache is only cleared on a HA restart, any voices Cartesia has added since your last session will appear automatically the next time you open Configure.
 
 **HA logs show a synthesis error**: Enable debug logging for the integration and check the payload logged before the API call:
 
