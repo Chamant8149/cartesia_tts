@@ -71,7 +71,6 @@ from .const import (
     LANGUAGES,
     LANGUAGES_BY_MODEL,
     SONIC3_EMOTIONS,
-    SONIC3_EMOTIONS_DISPLAY,
     DEFAULT_MODEL,
     DEFAULT_LANGUAGE,
     DEFAULT_SPEED,
@@ -176,7 +175,7 @@ def _settings_schema(model: str, defaults: dict | None = None) -> vol.Schema:
             vol.Required(CONF_DEFAULT_LANGUAGE, default=lang_default): vol.In(languages),
             vol.Optional(CONF_DEFAULT_SPEED, default=d.get(CONF_DEFAULT_SPEED, DEFAULT_SPEED)): _speed_selector(),
             vol.Optional(CONF_DEFAULT_VOLUME, default=d.get(CONF_DEFAULT_VOLUME, DEFAULT_VOLUME)): _volume_selector(),
-            vol.Optional(CONF_DEFAULT_EMOTION, default=d.get(CONF_DEFAULT_EMOTION, DEFAULT_EMOTION)): vol.In(SONIC3_EMOTIONS_DISPLAY),
+            vol.Optional(CONF_DEFAULT_EMOTION, default=d.get(CONF_DEFAULT_EMOTION, DEFAULT_EMOTION)): vol.In({e: e.title() for e in SONIC3_EMOTIONS}),
             vol.Required("voice_action", default="continue"): vol.In({
                 "continue": "Continue to voice selection",
                 "go_back": "Go back to model selection",
